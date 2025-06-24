@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<!-- note to Roger: main color is #178cba https://colorkit.co/color/178cba/ -->
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<title>Helen+Roger</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/yeti.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="site_libs/leaflet-binding-2.1.0/leaflet.js"></script>
+<link href="site_libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.css" rel="stylesheet" />
+<script src="site_libs/leaflet-awesomemarkers-2.0.3/leaflet.awesome-markers.min.js"></script>
+<link href="site_libs/fontawesome-4.7.0/font-awesome.min.css" rel="stylesheet" />
+<link rel="icon" href="images/favicon.png" type="image/png" sizes="32x32">
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Helen+Roger</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+
+    <li>
+      <a href="https://forms.gle/e5LRo3i1rDHpEpS66" target="_blank">RSVP</a>
+    </li>
+
+    <li>
+      <a href="#schedule">Schedule</a>
+    </li>
+
+    <li>
+      <a href="#accommodations">Accommodations</a>
+    </li>
+
+    <li>
+      <a href="#travel">Travel</a>
+    </li>
+
+    <li>
+      <a href="#FAQ">FAQ</a>
+    </li>
+
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+</div>
+
+<div id="RSVP" class="section level1" align="center">
+  <br/>
+
+  <h3><i><b><a href="https://forms.gle/e5LRo3i1rDHpEpS66" target="_blank" style="color: #6617ba; text-decoration: underline;">rsvp here</a></b></i></h3>
+
+  <br/>
+  <p><img src="images/main.png" /></p>
+</div>
+
+<div id="may-30-2025" class="section level1" align="center">
+<h1>Join us for a wedding weekend in the redwoods!</h1>
+<h3>May 30 - June 1, 2025</h3>
+
+<div id="camp-russian-river" class="section level3">
+  <h3>Camp Russian River</h3>
+  <h5>16220 Neeley Rd, Guerneville, CA</h5>
+  
+  <br/>
+  <i>We will continue to add detail to this page as the date approaches. Send your questions: helenxroger@gmail.com </i>
+  
+</div>
+<div id="guerneville-ca" class="section level3">
+<!-- <h3></h3> -->
+<!--</div>
+</div>
+<hr/>
+<hr />
+<div align="center">
+
+<div id="section" class="section level2">
+<h2><svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:currentColor;overflow:visible;position:relative;"><path d="M0 464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0v272zm320-196c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM192 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12h-40c-6.6 0-12-5.4-12-12v-40zM64 268c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zm0 128c0-6.6 5.4-12 12-12h40c6.6 0 12 5.4 12 12v40c0 6.6-5.4 12-12 12H76c-6.6 0-12-5.4-12-12v-40zM400 64h-48V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H160V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v48H48C21.5 64 0 85.5 0 112v48h448v-48c0-26.5-21.5-48-48-48z"/></svg></h2>
+</div>
+<div id="events" class="section level1">
+<h1>Events</h1>
+<p><br/></p>
+-->
+<!-- <p></p> --> 
+<br/>
+<hr />
+<div id="about" class="section level1" style="list-style: none; padding: 0;">
+  <h2>About the weekend</h2>
+  <div align="left">
+
+    <p>Why Sonoma? Roger spent the early years of his life in Sonoma County and visited the Russian River with his family often. When lockdown began, we took our first big step by moving in with Roger's parents for four months in Graton, just a few miles from Guerneville. We have visited these roads and trails countless times to bike, hike, and play in the river.</p>
+    <p>We dreamed up a wedding that would let us strengthen bonds within our community as we enter marriage. We will get to enjoy games, rituals, and meals together. We look forward to celebrating our love with our most cherished friends and family, in a majestic corner of the world.</p>
+    <p>We hope you'll join us!</p>
+  </div>
+
+  <p><br/></p>
+  <hr />
+
+<div id="schedule" class="section level1" style="list-style: none; padding: 0;">
+  <h2>Schedule</h2>
+    <div align="left">
+      <!-- <p>We are grateful to have you join us, and welcome all invitees to attend as much of the program as they are able! <br/></p> -->
+      <p>No matter where you choose to sleep, we hope Camp Russian River can be your home base to relax and play from Friday afternoon through Sunday morning. We will host all formal events there, including organized activities and all meals. <i>Children and babies are warmly invited to all events! </i></p>
+      <p> The weekend will kick off with a casual welcome dinner on Friday 6-9pm. We understand some folks may arrive during or after dinner. For those getting to town earlier, you're welcome to come enjoy the campground anytime on Friday while we are setting up. </p>
+
+      <p> <b>Attire recommendation</b> for Saturday during the ceremony and reception is 'garden party' or 'dressy casual'. Please wear whatever makes you feel comfortable and present. Attire recommendation for the rest of the weekend is casual. Expect warm sunny days and cool nights. When selecting footwear, note that the venue for all events is made up of soft grass and dirt roads.
+    </div>
+    <div>
+        <br/>
+        <p><h4><b>Friday, May 30, 2025</b></h4></p>
+        <p><b>6 - 9pm</b> – Casual welcome dinner (join us as you arrive in town) <br/><i>Selected toasts at 8pm </i><br/></p>
+    </div>
+    <div>
+        <br/>
+        <p><h4><b>Saturday, May 31, 2025</b></h4></p>
+        <p><b>8am</b> – Breakfast bar</p>
+        <p><b>Monday</b> – Lawn games, river activities</p>
+        <p><b>12 - 1pm</b> – Lunch bar </p>
+        <p><b>3:30pm</b> – Seating for ceremony begins </p>
+        <p><b>4pm</b> – Ceremony followed by cocktail hour</p>
+        <p><b>6pm</b> – Reception dinner and toasts</p>
+        <p><b>8pm</b> – Music, dancing</p>
+        <p><b>10pm - ???</b> – Afterparty</p>
+
+    </div>
+    <div>
+        <br/>
+        <p><h4><b>Sunday, June 1, 2025</b></h4></p>
+        <p><b>9 - 11:30am (or so)</b> – Casual breakfast and farewells</p>
+        </p>
+        <br/>We have the venue all day Sunday, feel free to stick around. We’ll be cleaning up and hanging out.</p>
+        
+    </div>
+    <div align="left">
+    </div>
+</div>
+
+</div>
+</div>
+<hr />
+<div align="center">
+<div id="travel" class="section level1">
+<h2>Travel</h2></div>
+
+<div align="left">
+<p>San Francisco International Airport (SFO) is the closest international airport, 1h30 from the wedding. Oakland (OAK) and San Jose (SJC) are also feasible.
+  Santa Rosa Airport (STS) is a small domestic airport 20 minutes away.  </p>
+<p>There is limited public transit from the Bay Area, and ample parking at the venue. If you have room in your car, or need a ride to the event, we invite you to sign up <a href="https://docs.google.com/spreadsheets/d/1NauYewNMhC3vHRorymQ9aknyGllxvzi2hbfJmOWTJxM/edit?usp=sharing" target="_blank">here</a>.</p>
+<p>Uber/lyft is available if you're starting in Santa Rosa, but is unreliable in Guerneville.</p>
+<p>If you're considering extending your Northern California vacation (we don't blame you), see <a href="https://docs.google.com/document/d/1lilqOS5ObRWgBKwOXnTI3PELgeoGkjl6EHRf_AkYZdc/edit?usp=sharing" target="_blank">here</a> for a list of our favorite places and things. </p>
+
+
+<hr />
+<div align="center">
+<div id="FAQ" class="section level1" style="list-style: none; padding: 0;">
+  <h2>FAQ</h2>
+    <div align="left">
+      <details>
+        <summary>What meals will be provided?</summary>
+        <div>
+        We will be serving all meals, as well as refreshments and snacks, from Friday dinner to Sunday brunch. Please let us know your dietary restrictions when you RSVP so that we can make arrangements.
+        </div>
+      </details>      
+      <details>
+        <summary>Is this a kid-friendly wedding? Are my children invited?</summary>
+        <div>
+        Absolutely, your kids and babies are 100% invited to all events. Let us know if we can answer your questions or help you plan your travel!
+        </div>
+      </details>
+      <details>
+        <summary>Are pets invited?</summary>
+        <div>
+        Unfortunately we won't be able to accommodate pets at the venue and campground. We love your doggies and we really wanted to make this work but the planning and the venue rules made it impractical. 
+        </div>
+      </details>
+      <details>
+        <summary>Gifts?</summary>
+        <div>
+          No gifts, please! We know we are already asking for substantial time, effort, and expense for you to come to our wedding, and it warms our heart to have you in our inner circle. 
+
+          Should you feel called to share beyond active attendance, we have good news: there will be many ways to contribute and share your love with us throughout the weekend. We will have some occasional chores for those who volunteer, and there will be some crafts and activities that will generate souvenirs for us. We also invite you to share your letters, cards, or hand-drawn pictures. 
+        </div>
+      </details>
+      <details>
+        <summary>What should I pack?</summary>
+        <div>
+          See our packing suggestions <a href="https://docs.google.com/document/d/1CPWW9dWe4-VXEGNgVxGozYiLKLjHj5UFyyrsUxF5WLM/edit?usp=sharing" target="_blank">here</a>!
+        </div>
+      </details>
+    </div>
+</div>
+
+<hr />
+<div id="accommodations" class="section level1" style="list-style: none; padding: 0;">
+  <h2>Accommodations</h2>
+    <div align="left">
+      <p>Guerneville offers a range of lodging options for the wedding weekend.
+      <b>We encourage everyone to book as soon as possible! This is a popular area that fills all lodging during peak season.</b> <br/></p>
+
+    </div>
+    <div class="info-section" align="left">
+      <p>General context that might inform lodging choices:</p>
+      <ul>
+          <li>During the wedding weekend, we will provide refreshments and meals from Friday evening to Sunday morning.</li>
+          <li>The venue is a 15-minute walk from downtown Guerneville. </li>
+          <li>It can get hot in May - check listings for A/C if you think you'll need it.</li>
+      </ul>
+    </div>
+    <br/>
+    <h3>On-site camping/glamping</h3>
+    <div align="left">
+    <p>The wedding guests have exclusive access to a full-service RV campground at the venue. It includes showers and bathrooms, and ample space for everyone who wants to camp in an RV or tent. Quiet hours will be at 10pm every night. To reserve a camping spot, you need only select the camping/RV prompt on the RSVP form.
+      <br/></p>
+    <p>If you don’t have gear and are interested in camping (yay!), reach out to us and we can facilitate borrowing or renting gear. 
+      <br/></p>
+    </div>
+    <br/>
+    <h3>Recommended airbnbs</h3>
+    <div align="left">
+    <p>See <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSh3uTr05jdPKpJiNuc5Yp5GxObKR08RFM3agdVBJ4ePoNJ4XmOD8pa_OgEA259STMZfOyOKzCEF57n/pubhtml" target="_blank">here</a> for a table of suitable airbnbs within a 10min drive.  
+      <br/></p>
+    </div>
+    <br/>
+    <h3>Recommended inns</h3>
+    <div align="left">
+    <p><i>Please note that Creekside Inn, the small hotel next to the venue, is unavailable for general booking, as we reserved their limited rooms for selected arrangements.</i>
+      <br/></p>
+    <p><b><a href="https://www.johnsonsbeach.com/" target="_blank">Johnson’s Beach</a></b>
+    <br/> Rustic beach resort across the river from the venue: offers mini cabins, hotel rooms, and other options for ~150/night.
+    <br/> 15 min on foot, 2 min by car, 30 seconds by canoe
+      </p>
+    <p><b><a href="https://www.cottagesonriverroad.com/" target="_blank">Cottages on River Road</a></b>
+    <br/> Simple cottages, just outside of town, $210+/night for studios, with two-bedroom units also available. 
+    <br/> 4 min by car, 35min walk
+      </p>
+    <p><b><a href="https://ther3hotel.com/" target="_blank">R3 Hotel</a></b>
+    <br/> Quaint inn downtown. Age 21+, $180 for a queen room
+    <br/> 15 min on foot, 2 min by car
+      </p>
+    <p><b><a href="https://www.highlandsresort.com/" target="_blank">Highlands Resort</a></b>
+    <br/> Refined standalone cottages. Age 18+. $220-280 for rooms and suites
+    <br/> 15 min on foot, 2 min by car
+      </p>
+    <p>Other local hotels to look into: <a href="https://boonhotels.com/" target="_blank">Boon Hotel+Spa</a>; <a href="https://autocamp.com/location/russian-river/" target="_blank">Autocamp</a>
+    <p>Hotels in nearby cities (25-30min drive): <a href="https://www.hilton.com/en/hotels/stsapgi-hilton-garden-inn-sonoma-county-airport/" target="_blank">Hilton Garden Inn Santa Rosa Airport</a>, <a href="https://www.marriott.com/en-us/hotels/stsrs-fairfield-inn-and-suites-santa-rosa-sebastopol/overview/" target="_blank">Fairfield Inn Sebastopol</a>, <a href="https://www.thegardeninn.com/en/" target="_blank">Best Western Garden Inn Santa Rosa</a>
+      </p>
+      <img src="images/accomm-map.png" alt="map of recommended local hotels" width="500">
+    </div>
+
+</div>
+</div>
+
+<div align="center">
+
+
+</div>
+<div id="section-6" class="section level2">
+
+
+
+<!-- <hr />
+<div align="center">
+<div id="RSVP" class="section level1" style="list-style: none; padding: 0;">
+  <h2>RSVP</h2>
+    <div align="left">
+<p><a href="https://forms.gle/e5LRo3i1rDHpEpS66" target="_blank">Kindly RSVP by April 4 (click here).</a></p>
+    </div>
+</div> -->
+
+</div>
+</div>
+<br/>
+<hr />
+<br/>
+<div align="center">
+<div id="cutepics" class="section level1">
+<h2>We look forward to making memories with you!</h2></div>
+<p><img src="images/collage.png" /></p>
+</div>
+</div>
+</div>
